@@ -2,6 +2,8 @@ package dev.brampie.giggleapi.post;
 
 import dev.brampie.giggleapi.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,5 +47,13 @@ public class PostService {
                 .createdAt(post.getCreatedAt().toString())
                 .updatedAt(post.getUpdatedAt().toString())
                 .build();
+    }
+
+    public Page<Post> getAll(Pageable pageable) {
+        return postRepository.findAll(pageable);
+
+//        return GetMultiplePostsResponse.builder()
+//                .posts(posts)
+//                .build();
     }
 }
