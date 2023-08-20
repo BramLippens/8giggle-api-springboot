@@ -20,8 +20,8 @@ import java.util.List;
 @Table(name = "_user")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     private String username;
     private String password;
 
