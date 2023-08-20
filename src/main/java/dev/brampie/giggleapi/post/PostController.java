@@ -17,12 +17,12 @@ public class PostController {
         return ResponseEntity.ok(postService.create(request));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<GetPostResponse> getById(@PathVariable String id) {
+    public ResponseEntity<PostResponse> getById(@PathVariable String id) {
         return ResponseEntity.ok(postService.getById(id));
     }
 
     @GetMapping
-    public ResponseEntity<Page<Post>> getAll(Pageable pageable) {
+    public ResponseEntity<Page<PostResponse>> getAll(Pageable pageable) {
         return ResponseEntity.ok(postService.getAll(pageable));
     }
 }

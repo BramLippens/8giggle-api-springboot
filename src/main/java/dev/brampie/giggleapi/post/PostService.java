@@ -36,10 +36,10 @@ public class PostService {
                 .build();
     }
 
-    public GetPostResponse getById(String id) {
+    public PostResponse getById(String id) {
         var post = postRepository.findById(id).orElseThrow();//TODO: Throw a better exception
 
-        return GetPostResponse.builder()
+        return PostResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
@@ -49,11 +49,16 @@ public class PostService {
                 .build();
     }
 
-    public Page<Post> getAll(Pageable pageable) {
-        return postRepository.findAll(pageable);
+    public Page<PostResponse> getAll(Pageable pageable) {
+        Page<Post> posts = postRepository.findAll(pageable);
 
-//        return GetMultiplePostsResponse.builder()
-//                .posts(posts)
-//                .build();
+        return posts.map(post -> PostResponse.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .author(post.getAuthor().getUsername())
+                .createdAt(post.getCreatedAt().toString())
+                .updatedAt(post.getUpdatedAt().toString())
+                .build());
     }
 }
