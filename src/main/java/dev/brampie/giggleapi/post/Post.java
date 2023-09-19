@@ -27,6 +27,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
+    private boolean isPublic;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

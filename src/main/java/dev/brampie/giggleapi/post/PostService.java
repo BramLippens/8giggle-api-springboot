@@ -14,14 +14,17 @@ import org.springframework.stereotype.Service;
 public class PostService {
     private final PostRepository postRepository;
 
-    public CreatePostResponse create(CreatePostRequest request) {
+    public CreatePostResponse create(PostRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+
 
         var post = Post.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .author((User) userDetails)
+                .isPublic(request.getIsPublic() != null && request.getIsPublic())
                 .build();
 
         postRepository.save(post);
@@ -39,18 +42,21 @@ public class PostService {
     public PostResponse getById(String id) {
         var post = postRepository.findById(id).orElseThrow();//TODO: Throw a better exception
 
-        return PostResponse.builder()
-                .id(post.getId())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .author(post.getAuthor().getUsername())
-                .createdAt(post.getCreatedAt().toString())
-                .updatedAt(post.getUpdatedAt().toString())
-                .build();
+        if (post.isPublic()) {
+            return PostResponse.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .author(post.getAuthor().getUsername())
+                    .createdAt(post.getCreatedAt().toString())
+                    .updatedAt(post.getUpdatedAt().toString())
+                    .build();
+        }
+        throw new RuntimeException("Post is not public");
     }
 
     public Page<PostResponse> getAll(Pageable pageable) {
-        Page<Post> posts = postRepository.findAll(pageable);
+        Page<Post> posts = postRepository.findAllByIsPublicTrue(pageable);
 
         return posts.map(post -> PostResponse.builder()
                 .id(post.getId())
@@ -62,11 +68,15 @@ public class PostService {
                 .build());
     }
 
-    public PostResponse update(UpdatePostRequest request) {
-        var post = postRepository.findById(request.getId()).orElseThrow();//TODO: Throw a better exception
+    public PostResponse update(String id, PostRequest request) {
+        var post = postRepository.findById(id).orElseThrow();//TODO: Throw a better exception
 
-        post.setTitle(request.getTitle());
-        post.setContent(request.getContent());
+        if(request.getIsPublic() == null) post.setPublic(false);
+        else post.setPublic(request.getIsPublic());
+
+        if(request.getTitle() != null) post.setTitle(request.getTitle());
+
+        if(request.getContent() != null) post.setContent(request.getContent());
 
         postRepository.save(post);
 

@@ -13,7 +13,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<CreatePostResponse> create(@RequestBody CreatePostRequest request) {
+    public ResponseEntity<CreatePostResponse> create(@RequestBody PostRequest request) {
         return ResponseEntity.ok(postService.create(request));
     }
     @GetMapping("/{id}")
@@ -26,9 +26,9 @@ public class PostController {
         return ResponseEntity.ok(postService.getAll(pageable));
     }
 
-    @PutMapping
-    public ResponseEntity<PostResponse> update(@RequestBody UpdatePostRequest request) {
-        return ResponseEntity.ok(postService.update(request));
+    @PutMapping("/{id}")
+    public ResponseEntity<PostResponse> update(@PathVariable String id, @RequestBody PostRequest request) {
+        return ResponseEntity.ok(postService.update(id, request));
     }
 
     @DeleteMapping("/{id}")

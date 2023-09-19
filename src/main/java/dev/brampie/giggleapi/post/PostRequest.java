@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePostRequest {
+public class PostRequest {
+    private String id;
     private String title;
     private String content;
+    private Boolean isPublic;
 }
