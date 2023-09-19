@@ -61,4 +61,26 @@ public class PostService {
                 .updatedAt(post.getUpdatedAt().toString())
                 .build());
     }
+
+    public PostResponse update(UpdatePostRequest request) {
+        var post = postRepository.findById(request.getId()).orElseThrow();//TODO: Throw a better exception
+
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
+
+        postRepository.save(post);
+
+        return PostResponse.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .author(post.getAuthor().getUsername())
+                .createdAt(post.getCreatedAt().toString())
+                .updatedAt(post.getUpdatedAt().toString())
+                .build();
+    }
+
+    public void delete(String id) {
+        postRepository.deleteById(id);
+    }
 }

@@ -25,4 +25,15 @@ public class PostController {
     public ResponseEntity<Page<PostResponse>> getAll(Pageable pageable) {
         return ResponseEntity.ok(postService.getAll(pageable));
     }
+
+    @PutMapping
+    public ResponseEntity<PostResponse> update(@RequestBody UpdatePostRequest request) {
+        return ResponseEntity.ok(postService.update(request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        postService.delete(id);
+        return ResponseEntity.ok().build();
+    }
 }
