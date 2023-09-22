@@ -1,33 +1,42 @@
 package dev.brampie.giggleapi.post;
 
+import dev.brampie.giggleapi.tag.Tag;
 import dev.brampie.giggleapi.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="_post")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name="posts")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @EqualsAndHashCode.Include()
     private String id;
+
+//    @Id
+//    @GeneratedValue
+//    @EqualsAndHashCode.Include()
+//    private Long id;
+
     private String title;
     private String content;
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
-    private boolean isPublic;
+    @Column(name = "is_public")
+    @Builder.Default
+    private boolean isPublic = true;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -38,4 +47,26 @@ public class Post {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(
+            name = "post_tags",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    @Builder.Default
+    private Set<Tag> tags = new HashSet<>();
+
+    public void addTag(Tag tag) {
+        tags.add(tag);
+        tag.getPosts().add(this);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+        tag.getPosts().remove(this);
+    }
 }

@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+import java.util.Set;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -13,7 +16,8 @@ public class PostResponse {
     private String id;
     private String title;
     private String content;
-    private String author;
-    private String createdAt;
-    private String updatedAt;
+    private String authorName;
+    private Date createdAt;
+    private Date updatedAt;
+    private Set<String> tags;
 }

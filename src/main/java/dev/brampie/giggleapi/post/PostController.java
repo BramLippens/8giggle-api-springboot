@@ -13,7 +13,7 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<CreatePostResponse> create(@RequestBody PostRequest request) {
+    public ResponseEntity<PostResponse> create(@RequestBody PostRequest request) {
         return ResponseEntity.ok(postService.create(request));
     }
     @GetMapping("/{id}")

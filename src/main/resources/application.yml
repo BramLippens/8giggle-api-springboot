@@ -13,3 +13,8 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+# Configuration for enabling mock data insertion in development mode
+app:
+  development:
+    mockdata:
+      enabled: true
