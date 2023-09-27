@@ -13,8 +13,9 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-# Configuration for enabling mock data insertion in development mode
-app:
-  development:
-    mockdata:
-      enabled: true
+  mail:
+    host: smtp.mailtrap.io
+    port: 2525
+    username: 8a6cc3f0cbf2c0
+    password: 3e5858f05ae2fb
+    protocol: smtp

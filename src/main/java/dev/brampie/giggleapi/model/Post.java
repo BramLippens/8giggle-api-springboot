@@ -21,12 +21,6 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.UUID)
     @EqualsAndHashCode.Include()
     private String id;
-
-//    @Id
-//    @GeneratedValue
-//    @EqualsAndHashCode.Include()
-//    private Long id;
-
     private String title;
     private String content;
     @ManyToOne
@@ -58,7 +52,7 @@ public class Post {
     @Builder.Default
     private Set<Tag> tags = new HashSet<>();
 
-    @ManyToMany(mappedBy = "forums",cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy = "posts",cascade = CascadeType.MERGE)
     @Builder.Default
     private Set<Forum> forums = new HashSet<>();
 
