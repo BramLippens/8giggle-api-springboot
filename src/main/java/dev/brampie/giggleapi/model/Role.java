@@ -1,4 +1,4 @@
-package dev.brampie.giggleapi.user;
+package dev.brampie.giggleapi.model;
 
 public enum Role {
     USER,

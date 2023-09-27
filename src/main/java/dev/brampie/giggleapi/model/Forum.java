@@ -1,7 +1,5 @@
-package dev.brampie.giggleapi.post;
+package dev.brampie.giggleapi.model;
 
-import dev.brampie.giggleapi.tag.Tag;
-import dev.brampie.giggleapi.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,26 +15,13 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Table(name="posts")
-public class Post {
+@Table(name="forums")
+public class Forum {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @EqualsAndHashCode.Include()
     private String id;
-
-//    @Id
-//    @GeneratedValue
-//    @EqualsAndHashCode.Include()
-//    private Long id;
-
-    private String title;
-    private String content;
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private User author;
-    @Column(name = "is_public")
-    @Builder.Default
-    private boolean isPublic = true;
+    private String name;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -48,25 +33,28 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+    @Builder.Default
+    private boolean isPublic = true;
+
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
     @JoinTable(
-            name = "post_tags",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
+            name = "forum_posts",
+            joinColumns = @JoinColumn(name = "forum_id"),
+            inverseJoinColumns = @JoinColumn(name = "post_id")
     )
     @Builder.Default
-    private Set<Tag> tags = new HashSet<>();
+    private Set<Post> posts = new HashSet<>();
 
-    public void addTag(Tag tag) {
-        tags.add(tag);
-        tag.getPosts().add(this);
+    public void addPost(Post post) {
+        posts.add(post);
+        post.getForums().add(this);
     }
 
-    public void removeTag(Tag tag) {
-        tags.remove(tag);
-        tag.getPosts().remove(this);
+    public void removePost(Post post) {
+        posts.remove(post);
+        post.getForums().remove(this);
     }
 }

@@ -1,5 +1,6 @@
 package dev.brampie.giggleapi.config;
 
+import dev.brampie.giggleapi.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

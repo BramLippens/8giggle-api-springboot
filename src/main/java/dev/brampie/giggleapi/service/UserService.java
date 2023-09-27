@@ -1,5 +1,9 @@
-package dev.brampie.giggleapi.user;
+package dev.brampie.giggleapi.service;
 
+import dev.brampie.giggleapi.dto.UpdatedUserRequest;
+import dev.brampie.giggleapi.dto.UpdatedUserResponse;
+import dev.brampie.giggleapi.model.User;
+import dev.brampie.giggleapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

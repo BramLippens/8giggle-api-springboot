@@ -1,5 +1,6 @@
-package dev.brampie.giggleapi.user;
+package dev.brampie.giggleapi.repository;
 
+import dev.brampie.giggleapi.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

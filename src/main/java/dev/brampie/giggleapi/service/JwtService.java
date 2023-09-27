@@ -1,4 +1,4 @@
-package dev.brampie.giggleapi.config;
+package dev.brampie.giggleapi.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,8 +1,12 @@
-package dev.brampie.giggleapi.post;
+package dev.brampie.giggleapi.service;
 
-import dev.brampie.giggleapi.tag.TagRepository;
-import dev.brampie.giggleapi.user.User;
-import dev.brampie.giggleapi.tag.Tag;
+import dev.brampie.giggleapi.dto.PostRequest;
+import dev.brampie.giggleapi.dto.PostResponse;
+import dev.brampie.giggleapi.model.Post;
+import dev.brampie.giggleapi.repository.PostRepository;
+import dev.brampie.giggleapi.repository.TagRepository;
+import dev.brampie.giggleapi.model.User;
+import dev.brampie.giggleapi.model.Tag;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,8 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

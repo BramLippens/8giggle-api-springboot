@@ -1,4 +1,4 @@
-package dev.brampie.giggleapi.post;
+package dev.brampie.giggleapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

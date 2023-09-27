@@ -1,5 +1,8 @@
-package dev.brampie.giggleapi.post;
+package dev.brampie.giggleapi.controller;
 
+import dev.brampie.giggleapi.dto.PostRequest;
+import dev.brampie.giggleapi.dto.PostResponse;
+import dev.brampie.giggleapi.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

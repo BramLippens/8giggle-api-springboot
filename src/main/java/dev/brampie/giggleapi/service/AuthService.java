@@ -1,9 +1,11 @@
-package dev.brampie.giggleapi.authentication;
+package dev.brampie.giggleapi.service;
 
-import dev.brampie.giggleapi.config.JwtService;
-import dev.brampie.giggleapi.user.Role;
-import dev.brampie.giggleapi.user.User;
-import dev.brampie.giggleapi.user.UserRepository;
+import dev.brampie.giggleapi.dto.AuthRequest;
+import dev.brampie.giggleapi.dto.AuthResponse;
+import dev.brampie.giggleapi.dto.RegisterRequest;
+import dev.brampie.giggleapi.model.Role;
+import dev.brampie.giggleapi.model.User;
+import dev.brampie.giggleapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

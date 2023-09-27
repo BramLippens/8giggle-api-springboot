@@ -1,6 +1,5 @@
-package dev.brampie.giggleapi.tag;
+package dev.brampie.giggleapi.model;
 
-import dev.brampie.giggleapi.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 

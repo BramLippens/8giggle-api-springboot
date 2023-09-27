@@ -1,4 +1,4 @@
-package dev.brampie.giggleapi.user;
+package dev.brampie.giggleapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdatedUserRequest {
+public class RegisterRequest {
     private String username;
-    private String email;
-    private String bio;
-    private String profilePicture;
+    private String password;
 }

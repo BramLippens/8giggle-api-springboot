@@ -1,5 +1,8 @@
-package dev.brampie.giggleapi.user;
+package dev.brampie.giggleapi.controller;
 
+import dev.brampie.giggleapi.dto.UpdatedUserRequest;
+import dev.brampie.giggleapi.dto.UpdatedUserResponse;
+import dev.brampie.giggleapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

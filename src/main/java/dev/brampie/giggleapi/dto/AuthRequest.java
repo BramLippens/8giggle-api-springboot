@@ -1,4 +1,4 @@
-package dev.brampie.giggleapi.authentication;
+package dev.brampie.giggleapi.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class AuthRequest {
     private String username;
     private String password;
 }
