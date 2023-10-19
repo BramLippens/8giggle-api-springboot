@@ -3,7 +3,9 @@ package dev.brampie.giggleapi.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,7 +24,7 @@ public class Tag {
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "tags",cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
     @Builder.Default
-    private Set<Post> posts = new HashSet<>();
+    private List<Post> posts = new ArrayList<>();
 }

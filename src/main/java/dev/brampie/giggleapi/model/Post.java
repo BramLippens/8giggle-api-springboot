@@ -29,29 +29,19 @@ public class Post {
     @Column(name = "is_public")
     @Builder.Default
     private boolean isPublic = true;
-
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", updatable = false)
     private Date createdAt;
-
     @UpdateTimestamp
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(
-            name = "post_tags",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "posts_tags", joinColumns = { @JoinColumn(name = "post_id") },
+            inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     @Builder.Default
-    private Set<Tag> tags = new HashSet<>();
-
+    public Set<Tag> tags = new HashSet<>();
     @ManyToMany(mappedBy = "posts",cascade = CascadeType.MERGE)
     @Builder.Default
     private Set<Forum> forums = new HashSet<>();
