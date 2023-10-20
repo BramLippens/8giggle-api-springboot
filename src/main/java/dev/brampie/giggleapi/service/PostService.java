@@ -3,11 +3,10 @@ package dev.brampie.giggleapi.service;
 import dev.brampie.giggleapi.dto.PostRequest;
 import dev.brampie.giggleapi.dto.PostResponse;
 import dev.brampie.giggleapi.model.Post;
+import dev.brampie.giggleapi.model.Tag;
+import dev.brampie.giggleapi.model.User;
 import dev.brampie.giggleapi.repository.PostRepository;
 import dev.brampie.giggleapi.repository.TagRepository;
-import dev.brampie.giggleapi.model.User;
-import dev.brampie.giggleapi.model.Tag;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -82,8 +81,7 @@ public class PostService {
 
     public Page<PostResponse> getAll(Pageable pageable) {
         Page<Post> posts = postRepository.findAllByIsPublicTrue(pageable);
-        posts.forEach(p-> System.out.println(p.toString()));
-
+        
         return posts.map(post -> PostResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())

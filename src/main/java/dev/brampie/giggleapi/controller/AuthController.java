@@ -2,8 +2,8 @@ package dev.brampie.giggleapi.controller;
 
 import dev.brampie.giggleapi.dto.AuthRequest;
 import dev.brampie.giggleapi.dto.AuthResponse;
-import dev.brampie.giggleapi.service.AuthService;
 import dev.brampie.giggleapi.dto.RegisterRequest;
+import dev.brampie.giggleapi.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
