@@ -1,4 +1,4 @@
-package dev.brampie.giggleapi.config;
+package dev.brampie.giggleapi.configs;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
