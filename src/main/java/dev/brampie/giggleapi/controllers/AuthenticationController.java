@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final AuthService authenticationService;
 
-    @PostMapping("/register")
-    public ResponseEntity<UserResponse.Register> register(@RequestBody UserRequest.Register request) {
+    @PostMapping("/signup")
+    public ResponseEntity<UserResponse.Login> register(@RequestBody UserRequest.Register request) {
         try{
             return ResponseEntity.ok(authenticationService.register(request));
         } catch (Exception e) {
@@ -25,7 +25,7 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<UserResponse.Login> login(@RequestBody UserRequest.Login request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }

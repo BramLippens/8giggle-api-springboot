@@ -23,7 +23,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     @Transactional
-    public UserResponse.Register register(UserRequest.Register request) {
+    public UserResponse.Login register(UserRequest.Register request) {
         User user = User.builder()
                 .username(request.username)
                 .email(request.email)
@@ -32,18 +32,22 @@ public class AuthService {
                 .enabled(true)
                 .build();
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        UserResponse.Register response = new UserResponse.Register();
-        response.token = jwtToken;
-        return response;
+        return setUserInfo(user);
     }
 
     public UserResponse.Login authenticate(UserRequest.Login request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username, request.password));
         var user = userRepository.findByUsername(request.username).orElseThrow();//TODO: Throw a better exception
+        return setUserInfo(user);
+    }
+
+    private UserResponse.Login setUserInfo(User user) {
         var jwtToken = jwtService.generateToken(user);
         UserResponse.Login response = new UserResponse.Login();
-        response.token = jwtToken;
+        response.id = user.getId();
+        response.email = user.getEmail();
+        response.username = user.getUsername();
+        response.accessToken = jwtToken;
         return response;
     }
 }
