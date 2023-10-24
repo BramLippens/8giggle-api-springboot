@@ -31,13 +31,13 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}/upvote")
+    @PutMapping("/{id}/upvote")
     public void upvote(@PathVariable String id){
         System.out.println("upvote");
         postService.vote(id, true);
     }
 
-    @PostMapping("/{id}/downvote")
+    @PutMapping("/{id}/downvote")
     public void downvote(@PathVariable String id){
         postService.vote(id, false);
     }
