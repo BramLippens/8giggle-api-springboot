@@ -27,4 +27,14 @@ public class PostController {
         postService.savePostToDatabase(file, title);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/{id}/upvote")
+    public void upvote(@PathVariable String id){
+        System.out.println(id);
+    }
+
+    @PostMapping("/{id}/downvote")
+    public void downvote(@PathVariable String id){
+        System.out.println(id);
+    }
 }
