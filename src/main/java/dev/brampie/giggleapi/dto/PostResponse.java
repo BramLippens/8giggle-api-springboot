@@ -1,23 +1,20 @@
 package dev.brampie.giggleapi.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.Date;
-import java.util.Set;
-
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class PostResponse {
-    private String id;
-    private String title;
-    private String content;
-    private String authorName;
-    private Date createdAt;
-    private Date updatedAt;
-    private Set<String> tags;
+public abstract class PostResponse {
+    public static class Create {
+        public String title;
+        public String image;
+    }
+    public static class Update {
+        public String title;
+        public String image;
+    }
+    public static class Get {
+        public String id;
+        public String title;
+        public String image;
+        public String author;
+        public int likes;
+        public int dislikes;
+    }
 }

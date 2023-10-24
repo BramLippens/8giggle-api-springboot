@@ -1,18 +1,16 @@
 package dev.brampie.giggleapi.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public abstract class PostRequest {
+    public class Create {
+        public String title;
+        public String image;
+    }
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class PostRequest {
-    private String id;
-    private String title;
-    private String content;
-    private Boolean isPublic;
-    private String[] tags;
+    public class Upvote {
+        public String id;
+    }
+
+    public class Downvote {
+        public String id;
+    }
 }

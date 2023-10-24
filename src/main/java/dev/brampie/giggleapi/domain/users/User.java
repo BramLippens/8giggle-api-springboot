@@ -1,6 +1,7 @@
 package dev.brampie.giggleapi.domain.users;
 
 import dev.brampie.giggleapi.domain.BaseEntity;
+import dev.brampie.giggleapi.domain.posts.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +26,16 @@ public class User extends BaseEntity implements UserDetails {
     @Lob
     @Column(name="profile_picture", nullable = true)
     private String profilePicture;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private List<Post> posts;
+
+    @ManyToMany(mappedBy = "likes", fetch = FetchType.LAZY)
+    private List<Post> likedPosts;
+
+    @ManyToMany(mappedBy = "dislikes", fetch = FetchType.LAZY)
+    private List<Post> dislikedPosts;
+
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Role role = Role.USER;

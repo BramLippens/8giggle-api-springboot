@@ -1,6 +1,7 @@
 package dev.brampie.giggleapi.controllers;
 
 import dev.brampie.giggleapi.domain.posts.Post;
+import dev.brampie.giggleapi.dto.PostResponse;
 import dev.brampie.giggleapi.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,25 +17,28 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity<Page<Post>> getAllPosts(Pageable pageable) {
-        System.out.println("get all posts");
+    public ResponseEntity<Page<PostResponse.Get>> getAllPosts(Pageable pageable) {
         return ResponseEntity.ok(postService.getAllPosts(pageable));
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponse.Get> getPostById(@PathVariable String id) {
+        return ResponseEntity.ok(postService.getPostById(id));
+    }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Post> savePost(@RequestParam("file") MultipartFile file, @RequestParam("title") String title) {
-        System.out.println("save post with title: " + title);
         postService.savePostToDatabase(file, title);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/upvote")
     public void upvote(@PathVariable String id){
-        System.out.println(id);
+        System.out.println("upvote");
+        postService.vote(id, true);
     }
 
     @PostMapping("/{id}/downvote")
     public void downvote(@PathVariable String id){
-        System.out.println(id);
+        postService.vote(id, false);
     }
 }
