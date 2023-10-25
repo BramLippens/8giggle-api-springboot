@@ -28,25 +28,21 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public void savePostToDatabase(MultipartFile file, String title) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
-            User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
-            Post post = new Post();
-            post.setAuthor(user);
-            String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-            if (fileName.contains("..")) {
-                System.out.println("not a valid file");
-            }
-            try {
-                post.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
-            } catch (Exception e) {
-                System.out.println("not a valid file");
-            }
-            post.setTitle(title);
-            postRepository.save(post);
+    public void savePostToDatabase(MultipartFile file, String title, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow();
+        Post post = new Post();
+        post.setAuthor(user);
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        if (fileName.contains("..")) {
+            System.out.println("not a valid file");
         }
+        try {
+            post.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+        } catch (Exception e) {
+            System.out.println("not a valid file");
+        }
+        post.setTitle(title);
+        postRepository.save(post);
     }
 
     public Page<PostResponse.Get> getAllPosts(Pageable pageable) {
@@ -57,7 +53,6 @@ public class PostService {
     }
 
     public PostResponse.Get getPostById(String id) {
-        PostResponse.Get postResponse = new PostResponse.Get();
         Post post = postRepository.findById(id).orElseThrow();
         return PostToResponse(post);
     }
@@ -73,28 +68,30 @@ public class PostService {
         return postResponse;
     }
 
-    public void deletePostById(String id) {
-        postRepository.deleteById(id);
+    public void upvote(String id, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow();
+        Post post = postRepository.findById(id).orElseThrow();
+        if (!post.getLikes().contains(user)) {
+            post.getLikes().add(user);
+            postRepository.save(post);
+        }
+
     }
 
-    public void updatePostById(String id, Post post) {
-        Post existingPost = postRepository.findById(id).orElseThrow();
-        existingPost.setTitle(post.getTitle());
-        existingPost.setImage(post.getImage());
-        postRepository.save(existingPost);
+    public void downvote(String id, String username) {
+        User user = userRepository.findByUsername(username).orElseThrow();
+        Post post = postRepository.findById(id).orElseThrow();
+        if (!post.getDislikes().contains(user)) {
+            post.getDislikes().add(user);
+            postRepository.save(post);
+        }
     }
 
-    public void vote(String id, boolean b) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
-            User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
-            Post post = postRepository.findById(id).orElseThrow();
-            if (b) {
-                post.addLike(user);
-            } else {
-                post.addDislike(user);
-            }
+    public void undoUpvote(String id, String name) {
+        User user = userRepository.findByUsername(name).orElseThrow();
+        Post post = postRepository.findById(id).orElseThrow();
+        if (post.getLikes().contains(user)) {
+            post.getLikes().remove(user);
             postRepository.save(post);
         }
     }
