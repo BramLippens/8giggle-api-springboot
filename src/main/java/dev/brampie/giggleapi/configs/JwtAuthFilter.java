@@ -1,6 +1,7 @@
 package dev.brampie.giggleapi.configs;
 
 import dev.brampie.giggleapi.services.JwtService;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        Check id instead of username
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String username;
@@ -32,12 +34,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
         jwt = authHeader.substring(7);
-
+//        HERE validating the token
+//        Throw an exception if the token is invalid
+//        return http codes
+        if (!jwtService.validateToken(jwt)) throw new ServletException("Invalid token");
         username = jwtService.extractUsername(jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if (jwtService.validateToken(jwt, userDetails)) {
+
                 final UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
@@ -45,7 +50,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+
         }
         filterChain.doFilter(request, response);
     }

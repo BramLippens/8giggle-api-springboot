@@ -33,6 +33,7 @@ public class PostService {
         User user = userRepository.findByUsername(username).orElseThrow();
         Post post = new Post();
         post.setAuthor(user);
+//        file.transferTo("");
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         if (fileName.contains("..")) {
             System.out.println("not a valid file");
