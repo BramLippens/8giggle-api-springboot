@@ -19,3 +19,5 @@ spring:
     username: 8a6cc3f0cbf2c0
     password: 3e5858f05ae2fb
     protocol: smtp
+storage:
+  location: "src/main/resources/Images"

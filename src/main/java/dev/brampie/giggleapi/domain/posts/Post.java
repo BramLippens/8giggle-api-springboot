@@ -24,8 +24,7 @@ public class Post {
     @Column(name="post_title", nullable = false)
     private String title;
 
-    @Lob
-    @Column(name="post_image", nullable = false)
+    @Column(name="post_image_location", nullable = false)
     private String image;
 
     @ManyToOne

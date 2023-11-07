@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final FileSystemStorageService fileSystemStorageService;
 
     public void savePostToDatabase(MultipartFile file, String title, String username) {
         User user = userRepository.findByUsername(username).orElseThrow();
@@ -37,7 +38,8 @@ public class PostService {
             System.out.println("not a valid file");
         }
         try {
-            post.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+            fileSystemStorageService.store(file);
+            post.setImage("");
         } catch (Exception e) {
             System.out.println("not a valid file");
         }

@@ -1,6 +1,5 @@
 package dev.brampie.giggleapi.controllers;
 
-import com.google.common.util.concurrent.RateLimiter;
 import dev.brampie.giggleapi.domain.posts.Post;
 import dev.brampie.giggleapi.dto.PostResponse;
 import dev.brampie.giggleapi.services.PostService;
@@ -19,7 +18,6 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
-    private final RateLimiter rateLimiter;
 
     @GetMapping
     public ResponseEntity<Page<PostResponse.Get>> getAllPosts(Pageable pageable) {
@@ -38,14 +36,11 @@ public class PostController {
 
     @PostMapping("/{id}/upvote")
     public void upvote(@PathVariable String id, Principal principal){
-        if(rateLimiter.tryAcquire()){
-            postService.upvote(id, principal.getName());
-        }
+        postService.upvote(id,principal.getName());
     }
     @DeleteMapping("/{id}/upvote")
     public void undoUpvote(@PathVariable String id, Principal principal){
-        if(rateLimiter.tryAcquire()){
-            postService.undoUpvote(id, principal.getName());
-        }
+        postService.undoUpvote(id, principal.getName());
+        postService.undoUpvote(id, principal.getName());
     }
 }
