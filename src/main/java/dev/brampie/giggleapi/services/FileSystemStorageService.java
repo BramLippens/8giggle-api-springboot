@@ -17,6 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -34,25 +36,28 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
+
+            // Generate a custom filename based on a timestamp
+            String customFilename = generateCustomFilename(file.getOriginalFilename());
+
             Path destinationFile = this.rootLocation.resolve(
-                            Paths.get(Objects.requireNonNull(file.getOriginalFilename())))
-                    .normalize().toAbsolutePath();
+                    Paths.get(customFilename)).normalize().toAbsolutePath();
+
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
-                throw new StorageException(
-                        "Cannot store file outside current directory.");
+                throw new StorageException("Cannot store file outside current directory.");
             }
+
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile,
-                        StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
             }
-        }
-        catch (IOException e) {
+            return customFilename;
+        } catch (IOException e) {
             throw new StorageException("Failed to store file.", e);
         }
     }
@@ -109,4 +114,20 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
+    private String generateCustomFilename(String originalFilename) {
+        // You can customize the filename generation strategy here
+        // For example, you can use a timestamp or a UUID
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String extension = getFileExtension(originalFilename);
+        return "custom_" + timestamp + "." + extension;
+    }
+
+    private String getFileExtension(String filename) {
+        // Extract the file extension from the original filename
+        int lastDotIndex = filename.lastIndexOf(".");
+        if (lastDotIndex == -1) {
+            return ""; // No extension found
+        }
+        return filename.substring(lastDotIndex + 1);
+    }
 }
