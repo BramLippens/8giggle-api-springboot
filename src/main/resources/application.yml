@@ -24,3 +24,9 @@ spring:
     protocol: smtp
 storage:
   location: "src/main/resources/Images"
+cloudinary:
+  api:
+    secret: ${cloudinary_api_secret}
+    key: ${cloudinary_api_key}
+    name: ${cloudinary_name}
+
