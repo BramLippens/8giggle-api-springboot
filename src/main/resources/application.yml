@@ -13,6 +13,9 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  jwt:
+    secret: ${jwt_secret}
+    expiration: ${jwt_expiration}
   mail:
     host: smtp.mailtrap.io
     port: 2525
