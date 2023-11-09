@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: ${db_url}
-    username: ${db_username}
-    password: ${db_password}
+    url: jdbc:postgresql://monorail.proxy.rlwy.net:47167/railway
+    username: postgres
+    password: ${DBPASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -14,8 +14,7 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   jwt:
-    secret: ${jwt_secret}
-    expiration: ${jwt_expiration}
+    secret: 092CA2FB0CA2B7EA472DAFA041395B2F06C9E090818EF43DA537922236BB960A
   mail:
     host: smtp.mailtrap.io
     port: 2525
@@ -26,7 +25,7 @@ storage:
   location: "src/main/resources/Images"
 cloudinary:
   api:
-    secret: ${cloudinary_api_secret}
-    key: ${cloudinary_api_key}
-    name: ${cloudinary_name}
+    secret: clZwIGa_rGLm4eLjXY0pDMiS_tk
+    key: 533978228527723
+    name: duu3f7jg1
 
