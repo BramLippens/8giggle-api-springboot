@@ -14,7 +14,7 @@
 	<name>8giggle-api</name>
 	<description>8giggle-api</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>20.0.2</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
