@@ -35,3 +35,5 @@ build/
 src/main/resources/Images/
 
 src/main/docker/
+
+.env

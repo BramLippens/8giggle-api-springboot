@@ -14,7 +14,7 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   jwt:
-    secret: ${JWT_SECRET}
+    secret: 092CA2FB0CA2B7EA472DAFA041395B2F06C9E090818EF43DA537922236BB960A
 cloudinary:
   api:
     secret: ${CLOUDINARY_SECRET}
